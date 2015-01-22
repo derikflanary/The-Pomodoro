@@ -61,6 +61,7 @@
     }
     NSArray * roundArray = [self times];
     cell.textLabel.text = [NSString stringWithFormat:@"Round %ld : %@ min", indexPath.row + 1, [[roundArray objectAtIndex:indexPath.row]stringValue]];
+    cell.textLabel.font = [UIFont fontWithName:@"Avenir-Light" size:20];
     return cell;
 }
 
@@ -96,6 +97,10 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:self.currentRound inSection:0];
     [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionTop];
     
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 56.5;
 }
 /*
 #pragma mark - Navigation

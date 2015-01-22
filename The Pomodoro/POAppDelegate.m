@@ -31,8 +31,20 @@
     UITabBarController *tabBarController = [UITabBarController new];
    //tabBarController.viewControllers = @[[[[UINavigationController alloc] initWithRootViewController:timerViewController],[UINavigationController alloc] initWithRootViewController:historyViewController], ];
     tabBarController.viewControllers = @[timerNav, historyNav];
+    tabBarController.view.backgroundColor = [UIColor whiteColor];
     
     self.window.rootViewController = tabBarController;
+    
+    [[UINavigationBar appearance]setBarTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{
+                                                           NSForegroundColorAttributeName:[UIColor blackColor],
+                                                           NSFontAttributeName:[UIFont fontWithName:@"Avenir-Light" size:22]
+                                                           
+                                                           }];
+    [[UITabBar appearance]setBarTintColor:[UIColor whiteColor]];
+    
+
+
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

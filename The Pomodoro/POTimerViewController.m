@@ -15,6 +15,7 @@
 @property (nonatomic, assign)NSInteger minutes;
 @property (nonatomic, assign)NSInteger seconds;
 @property (nonatomic, assign)BOOL timerRunning;
+@property (weak, nonatomic) IBOutlet UIButton *pauseButton;
 
 @end
 
@@ -23,11 +24,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self registerForNotifications];
-    self.title = @"Timer";
     
     self.view.backgroundColor = [UIColor redColor];
-//    self.minutes = 1;
-//    self.seconds = 0;
+    self.minutes = 25;
+    self.seconds = 0;
+    self.pauseButton.enabled = NO;
+    self.pauseButton.alpha = 0;
+    self.title = @"Round 1";
     [self updateLabel];
     // Do any additional setup after loading the view from its nib.
 }
@@ -49,7 +52,7 @@
 
 - (IBAction)timerButtonPressed:(id)sender {
     self.startTimerButton.enabled = NO;
-    self.startTimerButton.backgroundColor = [UIColor lightGrayColor];
+    self.startTimerButton.alpha = .5;
     self.timerRunning = YES;
     [self performSelector:@selector(decreaseTime) withObject:nil afterDelay:1.0];
 }
@@ -68,8 +71,7 @@
     }else if (self.seconds == 0){
         self.startTimerButton.enabled = YES;
         self.timerRunning = NO;
-        self.startTimerButton.backgroundColor = [UIColor clearColor];
-        
+        self.startTimerButton.alpha = 1;
         [[NSNotificationCenter defaultCenter]postNotificationName:roundOverNotification object:nil userInfo:nil];
     }
     
@@ -83,22 +85,30 @@
 
 -(void)updateLabel{
     if (self.seconds > 9) {
-    self.timerLabel.text = [NSString stringWithFormat:@"%d:%d", self.minutes, self.seconds];
+    self.timerLabel.text = [NSString stringWithFormat:@"%lu:%lu", self.minutes, self.seconds];
     }else{
-        self.timerLabel.text = [NSString stringWithFormat:@"%d:0%d", self.minutes, self.seconds];
+        self.timerLabel.text = [NSString stringWithFormat:@"%lu:0%lu", self.minutes, self.seconds];
     }
-    
+    if (self.timerRunning){
+        self.pauseButton.enabled = YES;
+        self.pauseButton.alpha = 1;
+    }
 }
 
 -(void)newRound:(NSNotification *)notification{
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(decreaseTime) object:nil];
     self.minutes = [notification.userInfo[roundMinutesKey]integerValue];
     self.seconds = 0;
-    
+    self.title = notification.userInfo[roundTitleKey];
     self.startTimerButton.enabled = YES;
-    self.startTimerButton.backgroundColor = [UIColor clearColor];
-    
+    self.startTimerButton.alpha = 1;
     [self updateLabel];
+}
+- (IBAction)pausePressed:(id)sender {
+    self.startTimerButton.enabled = YES;
+    self.startTimerButton.alpha = 1;
+    self.pauseButton.alpha = 0;
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(decreaseTime) object:nil];
 }
 
 #pragma mark - Navigation

@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="POTimerViewController">
             <connections>
+                <outlet property="pauseButton" destination="Wdb-lE-jdN" id="RxP-Df-344"/>
                 <outlet property="startTimerButton" destination="IGa-0C-rDt" id="gTa-Xo-fMR"/>
                 <outlet property="timerLabel" destination="htM-bo-7Pr" id="Nit-aL-R0e"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -18,22 +19,38 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IGa-0C-rDt">
-                    <rect key="frame" x="101" y="218" width="83" height="30"/>
-                    <state key="normal" title="Start Timer">
+                    <rect key="frame" x="65" y="183" width="187" height="187"/>
+                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="34"/>
+                    <state key="normal" title="Start Timer" backgroundImage="tomatos">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="timerButtonPressed:" destination="-1" eventType="touchUpInside" id="ceA-mY-tOo"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Timer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htM-bo-7Pr">
-                    <rect key="frame" x="121" y="155" width="63" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Timer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htM-bo-7Pr">
+                    <rect key="frame" x="92" y="114" width="133" height="61"/>
+                    <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="45"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wdb-lE-jdN">
+                    <rect key="frame" x="118" y="386" width="90" height="30"/>
+                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="30"/>
+                    <state key="normal" title="Pause">
+                        <color key="titleColor" red="0.0037878787878787845" green="0.0037878787878787845" blue="0.0037878787878787845" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="pausePressed:" destination="-1" eventType="touchUpInside" id="6hR-6c-IZH"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
         </view>
     </objects>
+    <resources>
+        <image name="tomatos" width="32" height="32"/>
+    </resources>
 </document>

@@ -12,6 +12,7 @@
 @interface POHistoryViewController ()<UITableViewDataSource, UITableViewDelegate>
 
 @property(nonatomic, assign)NSInteger currentRound;
+
 @property(nonatomic, strong)UITableView *tableView;
 
 @end
@@ -45,7 +46,7 @@
 }
 
 -(NSArray*)times{
-    return @[@1,@5,@25,@5,@25,@5,@25,@15];
+    return @[@25,@5,@25,@5,@25,@5,@25,@15];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -67,15 +68,17 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"currentRoundNotification" object:nil userInfo:nil];
     self.currentRound = indexPath.row;
     [self postMinutes];
-    POTimerViewController *timerViewController = [POTimerViewController new];
+    self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:0];
     //[self.navigationController pushViewController:timerViewController animated:NO];
 }
 
 
 -(void)postMinutes{
     //NSInteger minForRound = [self times][self.currentRound];
-    [[NSNotificationCenter defaultCenter]postNotificationName:roundMinutesKey object:nil userInfo:@{roundMinutesKey:[self times][self.currentRound]}];
+    [[NSNotificationCenter defaultCenter]postNotificationName:roundMinutesKey object:nil userInfo:@{roundMinutesKey:[self times][self.currentRound], roundTitleKey:[NSString stringWithFormat:@"Round %lu",self.currentRound+1]}];
+    //roundTitleKey = [NSString stringWithFormat:@"Round %lu", self.currentRound];
     
+
 }
 
 -(void)endRound:(NSNotification *)notification{

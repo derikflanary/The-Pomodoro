@@ -10,7 +10,8 @@
 
 static NSString * const newRoundTimeNotificationName = @"NewRoundTimeNotification";
 static NSString * const roundMinutesKey = @"minutes";
+static NSString *roundTitleKey = @"roundTitle";
+
 
 @interface POHistoryViewController : UIViewController
-
 @end

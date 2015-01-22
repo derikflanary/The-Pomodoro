@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+static NSString * const newRoundTimeNotificationName = @"NewRoundTimeNotification";
+static NSString * const roundMinutesKey = @"minutes";
+
 @interface POHistoryViewController : UIViewController
 
 @end

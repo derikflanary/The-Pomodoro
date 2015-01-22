@@ -7,10 +7,14 @@
 //
 
 #import "POTimerViewController.h"
+#import "POHistoryViewController.h"
 
 @interface POTimerViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *timerLabel;
 @property (weak, nonatomic) IBOutlet UIButton *startTimerButton;
+@property (nonatomic, assign)NSInteger minutes;
+@property (nonatomic, assign)NSInteger seconds;
+@property (nonatomic, assign)BOOL timerRunning;
 
 @end
 
@@ -18,9 +22,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self registerForNotifications];
     self.title = @"Timer";
     
     self.view.backgroundColor = [UIColor redColor];
+//    self.minutes = 1;
+//    self.seconds = 0;
+    [self updateLabel];
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -28,13 +36,71 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (IBAction)timerButtonPressed:(id)sender {
+
+-(void)registerForNotifications{
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(newRound:) name:roundMinutesKey object:nil];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
- 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:roundMinutesKey object:nil];
+}
+
+
+
+- (IBAction)timerButtonPressed:(id)sender {
+    self.startTimerButton.enabled = NO;
+    self.startTimerButton.backgroundColor = [UIColor lightGrayColor];
+    self.timerRunning = YES;
+    [self performSelector:@selector(decreaseTime) withObject:nil afterDelay:1.0];
+}
+
+-(void)decreaseTime{
+    if (self.seconds > 0){
+        self.seconds --;
+    }
     
-}/*
+    if (self.minutes > 0){
+        if (self.seconds == 0){
+            self.minutes --;
+            self.seconds = 59;
+        }
+
+    }else if (self.seconds == 0){
+        self.startTimerButton.enabled = YES;
+        self.timerRunning = NO;
+        self.startTimerButton.backgroundColor = [UIColor clearColor];
+        
+        [[NSNotificationCenter defaultCenter]postNotificationName:roundOverNotification object:nil userInfo:nil];
+    }
+    
+    [self updateLabel];
+    
+    if (self.timerRunning == YES){
+        [self performSelector:@selector(decreaseTime) withObject:nil afterDelay:1.0];
+    }
+    
+}
+
+-(void)updateLabel{
+    if (self.seconds > 9) {
+    self.timerLabel.text = [NSString stringWithFormat:@"%d:%d", self.minutes, self.seconds];
+    }else{
+        self.timerLabel.text = [NSString stringWithFormat:@"%d:0%d", self.minutes, self.seconds];
+    }
+    
+}
+
+-(void)newRound:(NSNotification *)notification{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(decreaseTime) object:nil];
+    self.minutes = [notification.userInfo[roundMinutesKey]integerValue];
+    self.seconds = 0;
+    
+    self.startTimerButton.enabled = YES;
+    self.startTimerButton.backgroundColor = [UIColor clearColor];
+    
+    [self updateLabel];
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -42,6 +108,6 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 
 @end

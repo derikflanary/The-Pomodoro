@@ -21,18 +21,14 @@
     timerViewController.tabBarItem.image = [UIImage imageNamed:@"tomatos"];
     UINavigationController *timerNav = [[UINavigationController alloc] initWithRootViewController:timerViewController];
     
-    
     POHistoryViewController *historyViewController = [POHistoryViewController new];
     historyViewController.tabBarItem.title = @"Rounds";
     historyViewController.tabBarItem.image = [UIImage imageNamed:@"list"];
     UINavigationController *historyNav = [[UINavigationController alloc]initWithRootViewController:historyViewController];
     
-    
     UITabBarController *tabBarController = [UITabBarController new];
-   //tabBarController.viewControllers = @[[[[UINavigationController alloc] initWithRootViewController:timerViewController],[UINavigationController alloc] initWithRootViewController:historyViewController], ];
     tabBarController.viewControllers = @[timerNav, historyNav];
     tabBarController.view.backgroundColor = [UIColor whiteColor];
-    
     self.window.rootViewController = tabBarController;
     
     [[UINavigationBar appearance]setBarTintColor:[UIColor whiteColor]];
@@ -43,9 +39,12 @@
                                                            }];
     [[UITabBar appearance]setBarTintColor:[UIColor whiteColor]];
     
+    UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+    if (locationNotification) {
+        // Set icon badge number to zero
+        application.applicationIconBadgeNumber = 0;
+    }
 
-
-    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
@@ -53,6 +52,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    application.applicationIconBadgeNumber = 0;
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
@@ -70,7 +70,24 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]){ //iOS8
+        
+        [application registerUserNotificationSettings:
+         [UIUserNotificationSettings settingsForTypes:(UIRemoteNotificationTypeBadge |
+                                                       UIRemoteNotificationTypeSound |
+                                                       UIRemoteNotificationTypeAlert)
+                                           categories:nil]];
+        [application registerForRemoteNotifications];
+        
+    } else {
+        
+        [application registerForRemoteNotificationTypes:(UIRemoteNotificationType)
+         (UIRemoteNotificationTypeBadge |
+          UIRemoteNotificationTypeSound |
+          UIRemoteNotificationTypeAlert)];
+        
+    }
+// Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

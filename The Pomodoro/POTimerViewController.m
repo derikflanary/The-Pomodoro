@@ -73,12 +73,24 @@
         self.timerRunning = NO;
         self.startTimerButton.alpha = 1;
         [[NSNotificationCenter defaultCenter]postNotificationName:roundOverNotification object:nil userInfo:nil];
+        
+        NSDate *notificationDate = [NSDate date];
+        UILocalNotification *notification = [UILocalNotification new];
+        if (notification){
+            notification.fireDate = notificationDate;
+            notification.timeZone = [NSTimeZone defaultTimeZone];
+            notification.alertBody =@"Your current round has ended";
+            notification.soundName = @"bell_tree.mp3";
+            notification.repeatInterval = 0;
+            notification.applicationIconBadgeNumber = 1;
+            [[UIApplication sharedApplication] scheduleLocalNotification:notification];
+        }
+
         UIAlertController *roundOverAlertController = [UIAlertController alertControllerWithTitle:@"Round Over" message:@"Start next round?" preferredStyle:UIAlertControllerStyleAlert];
         [roundOverAlertController addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [self timerButtonPressed:(self)];
         }]];
         [roundOverAlertController addAction:[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-            
         }]];
         [self presentViewController:roundOverAlertController animated:YES completion:nil];
     }

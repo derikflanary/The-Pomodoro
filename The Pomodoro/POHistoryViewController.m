@@ -46,7 +46,7 @@
 }
 
 -(NSArray*)times{
-    return @[@25,@5,@25,@5,@25,@5,@25,@15];
+    return @[@1,@5,@25,@5,@25,@5,@25,@15];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -70,14 +70,14 @@
     self.currentRound = indexPath.row;
     [self postMinutes];
     self.tabBarController.selectedViewController = [self.tabBarController.viewControllers objectAtIndex:0];
-    //[self.navigationController pushViewController:timerViewController animated:NO];
+    
 }
 
 
 -(void)postMinutes{
-    //NSInteger minForRound = [self times][self.currentRound];
+    
     [[NSNotificationCenter defaultCenter]postNotificationName:roundMinutesKey object:nil userInfo:@{roundMinutesKey:[self times][self.currentRound], roundTitleKey:[NSString stringWithFormat:@"Round %lu",self.currentRound+1]}];
-    //roundTitleKey = [NSString stringWithFormat:@"Round %lu", self.currentRound];
+   
     
 
 }

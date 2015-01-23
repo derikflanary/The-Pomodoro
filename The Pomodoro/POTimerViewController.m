@@ -73,6 +73,14 @@
         self.timerRunning = NO;
         self.startTimerButton.alpha = 1;
         [[NSNotificationCenter defaultCenter]postNotificationName:roundOverNotification object:nil userInfo:nil];
+        UIAlertController *roundOverAlertController = [UIAlertController alertControllerWithTitle:@"Round Over" message:@"Start next round?" preferredStyle:UIAlertControllerStyleAlert];
+        [roundOverAlertController addAction:[UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            [self timerButtonPressed:(self)];
+        }]];
+        [roundOverAlertController addAction:[UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            
+        }]];
+        [self presentViewController:roundOverAlertController animated:YES completion:nil];
     }
     
     [self updateLabel];
